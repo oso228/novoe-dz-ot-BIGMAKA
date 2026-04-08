@@ -1,34 +1,53 @@
 import random
 
 def play_game():
-    choices = ['камень', 'ножницы', 'бумага']
-    
+    choices = {'к': 'камень', 'н': 'ножницы', 'б': 'бумага'}
+    scores = {'player': 0, 'computer': 0, 'draws': 0}
+
     print("Добро пожаловать в игру 'Камень, ножницы, бумага'!")
-    print("Выберите один из вариантов: камень, ножницы, бумага")
-    
+    print("Выберите вариант: к (камень), н (ножницы), б (бумага)")
+    print("Для выхода введите 'выход'")
+
     while True:
-        player_choice = input("Ваш выбор: ")
-        
-        if player_choice not in choices:
-            print("Неверный ввод! Пожалуйста, выберите: камень, ножницы или бумага.")
+
+        player_input = input("\nВаш выбор (к/н/б) или 'выход': ")
+
+        if player_input == 'выход':
+            break
+
+        if player_input not in choices:
+            print("Неверный ввод! Используйте: к, н, б или 'выход'.")
             continue
-        
-        computer_choice = random.choice(choices)
+
+        player_choice = choices[player_input]
+        print(f"Вы выбрали: {player_choice}")
+
+   
+        computer_choice = random.choice(list(choices.values()))
         print(f"Компьютер выбрал: {computer_choice}")
-        
+
+
         if player_choice == computer_choice:
             result = "Ничья!"
-        elif player_choice == 'камень' and computer_choice == 'ножницы' or player_choice == 'ножницы' and computer_choice == 'бумага' or player_choice == 'бумага' and computer_choice == 'камень':
+            scores['draws'] += 1
+        elif (player_choice == 'камень' and computer_choice == 'ножницы') or \
+             (player_choice == 'ножницы' and computer_choice == 'бумага') or \
+             (player_choice == 'бумага' and computer_choice == 'камень'):
             result = "Вы выиграли!"
+            scores['player'] += 1
         else:
             result = "Компьютер выиграл!"
-        
+            scores['computer'] += 1
+
         print(result)
-        
-        play_again = input("Хотите сыграть ещё раз? (да/нет): ")
-        if play_again != 'да':
-            print("Спасибо за игру!")
-            break
+        print(f"Счёт: Вы {scores['player']} — Компьютер {scores['computer']} — Ничьи {scores['draws']}")
+
+
+    print("\nИтоговый счёт:")
+    print(f"Вы: {scores['player']}")
+    print(f"Компьютер: {scores['computer']}")
+    print(f"Ничьи: {scores['draws']}")
+    print("Спасибо за игру!")
 
 
 play_game()
